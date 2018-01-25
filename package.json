@@ -1,0 +1,17 @@
+{
+  "name": "gistdrive",
+  "version": "0.0.1",
+  "description": "Github Gist viewer for desktop",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "sabiz",
+  "repository": "https://github.com/sabiz/GistDrive",
+  "license": "MIT",
+  "dependencies": {
+    "gists": "^1.0.1",
+    "password-prompt": "^1.0.4",
+    "prompt-sync": "^4.1.5"
+  }
+}
