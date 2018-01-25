@@ -22,13 +22,19 @@ class App {
             name = prompt('Github user name > ');
             this.conf.set(CONFIG_GITHUB_NAME, name);
         }
-        const key = prompt('password Encrypt key > ');
+        const key = prompt.hide('password Encrypt key > ');
         let password = this.conf.getAndDecrypt(CONFIG_GITHUB_PASSWORD, key);
         if(!password){
-            password = prompt('Github password > ');
+            password = prompt.hide('Github password > ');
             this.conf.setAndEncrypt(CONFIG_GITHUB_PASSWORD, password, key);
         }
-        console.log(name, password)
+        let gist = new Gists({
+            username: name,
+            password: password
+        });
+        gist.list({user:name},(err,res)=>{
+            console.log(err,res);
+        });
     }
 }
 
