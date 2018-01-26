@@ -41,7 +41,7 @@ class Window{
 
     createWindow(){
         this.win = new BrowserWindow(WINDOW_OPTIONS);
-        this.win.loadURL(path.join(__dirname,'content','index.html'));
+        this.win.loadURL(path.join(process.cwd(),'content','index.html'));
         this.win.on('closed', ()=>{this.win = null});
         this.win.webContents.openDevTools();
     }
