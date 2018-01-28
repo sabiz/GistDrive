@@ -1,1 +1,3 @@
-const test = require('electron-titlebar');
+'use strict'
+
+const titlebar = require('./titlebar/titlebar');
