@@ -5,17 +5,18 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node_modules/.bin/electron .",
-    "content": "node_modules/.bin/parcel view/index.html -d src/ui/content"
+    "start": "npm run scss && electron .",
+    "scss": "node-sass src/ui/view/style.scss > src/ui/view/style.css"
   },
   "author": "sabiz",
   "repository": "https://github.com/sabiz/GistDrive",
   "license": "MIT",
   "dependencies": {
     "electron": "^1.7.11",
+    "electron-titlebar": "0.0.3",
     "gists": "^1.0.1"
   },
   "devDependencies": {
-    "parcel-bundler": "^1.5.0"
+    "node-sass": "^4.7.2"
   }
 }

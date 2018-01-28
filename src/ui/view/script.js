@@ -1,0 +1,1 @@
+const test = require('electron-titlebar');
