@@ -6,14 +6,17 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run scss && electron .",
-    "scss": "node-sass src/ui/view/style.scss src/ui/view/style.css -r"
+    "scss": "node-sass src/ui/view/style.scss src/ui/view/style.css -r",
+    "scss-w": "node-sass src/ui/view/style.scss src/ui/view/style.css -r -w"
   },
   "author": "sabiz",
   "repository": "https://github.com/sabiz/GistDrive",
   "license": "MIT",
   "dependencies": {
     "electron": "^1.7.11",
-    "gists": "^1.0.1"
+    "gists": "^1.0.1",
+    "highlight.js": "^9.12.0",
+    "markdown-it": "^8.4.0"
   },
   "devDependencies": {
     "node-sass": "^4.7.2"

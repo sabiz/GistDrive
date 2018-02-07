@@ -1,20 +1,35 @@
 @import 'fontawesome5/scss/fontawesome.scss';
 @import 'fontawesome5/scss/fa-solid.scss';
+@import 'monokai-sublime.css';
 
-$mainColor: #323232;
-$accentColor: #FFFFFF;
-$accentColor2: #A0A0A0;
+$mainColor: #2A3D44;
+$accentColor: #A7B9C3;
+$accentColor2: #859396;
+$accentColor3: #455A5D;
 
 $mainFont: 'Lucida Grande','Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3',Meiryo, メイリオ, sans-serif;
 
 $titleHeight: 30px;
-
-body {
-  margin: 0;
-}
+$sidePanelWidth: 25%;
 
 .side-panel {
+    width: 30%;
+    height: 100%;
+    border-right: solid 3px $accentColor2;
+    box-sizing:border-box;
+    background-color:$accentColor3;
+    color:$accentColor;
+}
 
+html,body {
+  margin: 0;
+  height: 100%;
+  font-family: $mainFont;
+}
+
+
+.fa-power-off:hover:before {
+  color: $accentColor2;
 }
 
 .draggable {
@@ -29,7 +44,6 @@ body {
   top: 0;
   left: 0;
   background: $mainColor;
-  font-family: $mainFont;
   color: $accentColor;
   text-align: center;
     i {
@@ -39,8 +53,27 @@ body {
       right: 10px;
       top: 5px;
     }
-    
 }
-.fa-power-off:hover:before {
-  color: $accentColor2;
+
+.content-area {
+    position: absolute;
+    top: $titleHeight;
+    width: 100%;
+    height: calc(100% - #{$titleHeight});
+}
+
+.side-panel {
+    float:left;
+    width: $sidePanelWidth;
+    height: 100%;
+    border-right: solid 3px $accentColor2;
+    box-sizing:border-box;
+    background-color:$accentColor3;
+    color:$accentColor;
+}
+
+.main-panel {
+    float:right;
+    width: calc(100% - #{$sidePanelWidth});
+    height: 100%;
 }
