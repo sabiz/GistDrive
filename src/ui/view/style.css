@@ -2643,21 +2643,11 @@ readers do not read off random characters that represent icons */
   font-family: 'Font Awesome 5 Free';
   font-weight: 900; }
 
-.side-panel {
-  width: 30%;
-  height: 100%;
-  border-right: solid 3px #859396;
-  box-sizing: border-box;
-  background-color: #455A5D;
-  color: #A7B9C3; }
-
 html, body {
   margin: 0;
   height: 100%;
-  font-family: "Lucida Grande", "Hiragino Kaku Gothic ProN", "ヒラギノ角ゴ ProN W3", Meiryo, メイリオ, sans-serif; }
-
-.fa-power-off:hover:before {
-  color: #859396; }
+  font-family: "Lucida Grande", "Hiragino Kaku Gothic ProN", "ヒラギノ角ゴ ProN W3", Meiryo, メイリオ, sans-serif;
+  background-color: #F8F8F0; }
 
 .draggable {
   -webkit-app-region: drag; }
@@ -2669,8 +2659,8 @@ html, body {
   font-size: 20px;
   top: 0;
   left: 0;
-  background: #2A3D44;
-  color: #A7B9C3;
+  background: #49483E;
+  color: #F92672;
   text-align: center; }
   .title-bar i {
     -webkit-app-region: no-drag;
@@ -2678,6 +2668,10 @@ html, body {
     position: absolute;
     right: 10px;
     top: 5px; }
+  .title-bar .fa-power-off:hover:before {
+    color: #F92672; }
+  .title-bar .fa-power-off:before {
+    color: #F8F8F0; }
 
 .content-area {
   position: absolute;
@@ -2686,13 +2680,31 @@ html, body {
   height: calc(100% - 30px); }
 
 .side-panel {
+  overflow-y: scroll;
   float: left;
-  width: 25%;
+  width: calc(25% - 4px);
   height: 100%;
-  border-right: solid 3px #859396;
+  border-right: solid 4px #49483E;
   box-sizing: border-box;
-  background-color: #455A5D;
-  color: #A7B9C3; }
+  padding: 0px; }
+  .side-panel ul {
+    list-style: none;
+    margin: 0;
+    padding: 0; }
+    .side-panel ul li {
+      width: 100%;
+      height: 45px;
+      line-height: 45px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      border-bottom: solid 2px #49483E;
+      box-sizing: border-box; }
+      .side-panel ul li:hover {
+        background-color: #e0e0bc; }
+
+.side-panel::-webkit-scrollbar {
+  display: none; }
 
 .main-panel {
   float: right;

@@ -2,34 +2,23 @@
 @import 'fontawesome5/scss/fa-solid.scss';
 @import 'monokai-sublime.css';
 
-$mainColor: #2A3D44;
-$accentColor: #A7B9C3;
-$accentColor2: #859396;
-$accentColor3: #455A5D;
+$background: #F8F8F0;
+$uiColor: #49483E;
+$textColor: #272822;
+$accentColor: #F92672;
+$accentColor2: #FD971F;
 
 $mainFont: 'Lucida Grande','Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3',Meiryo, メイリオ, sans-serif;
 
 $titleHeight: 30px;
 $sidePanelWidth: 25%;
-
-.side-panel {
-    width: 30%;
-    height: 100%;
-    border-right: solid 3px $accentColor2;
-    box-sizing:border-box;
-    background-color:$accentColor3;
-    color:$accentColor;
-}
+$listItemHeight: 45px;
 
 html,body {
   margin: 0;
   height: 100%;
   font-family: $mainFont;
-}
-
-
-.fa-power-off:hover:before {
-  color: $accentColor2;
+  background-color: $background;
 }
 
 .draggable {
@@ -43,7 +32,7 @@ html,body {
   font-size: $titleHeight - 10;
   top: 0;
   left: 0;
-  background: $mainColor;
+  background: $uiColor;
   color: $accentColor;
   text-align: center;
     i {
@@ -52,6 +41,12 @@ html,body {
       position: absolute;
       right: 10px;
       top: 5px;
+    }
+    .fa-power-off:hover:before {
+      color: $accentColor;
+    }
+    .fa-power-off:before {
+      color: $background;
     }
 }
 
@@ -63,13 +58,40 @@ html,body {
 }
 
 .side-panel {
+    overflow-y: scroll;
     float:left;
-    width: $sidePanelWidth;
+    width: calc(#{$sidePanelWidth} - 4px);
     height: 100%;
-    border-right: solid 3px $accentColor2;
+    border-right: solid 4px $uiColor;
     box-sizing:border-box;
-    background-color:$accentColor3;
-    color:$accentColor;
+    padding: 0px;
+
+
+    ul {
+        list-style:none;
+        margin: 0;
+        padding: 0;
+
+        li {
+            width: 100%;
+            height: $listItemHeight;
+            line-height: $listItemHeight;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            border-bottom: solid 2px $uiColor;
+            box-sizing:border-box;
+
+            &:hover {
+                background-color:darken($background, 15%);
+            }
+
+        }
+    }
+
+}
+.side-panel::-webkit-scrollbar {
+    display:none;
 }
 
 .main-panel {
