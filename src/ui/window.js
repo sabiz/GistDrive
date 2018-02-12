@@ -15,7 +15,6 @@ const WINDOW_OPTIONS = {
     title: "GistDrive",
     //icon: TODO,
     frame: false,
-    //backgroundColor: TODO,
     darkTheme: true,
     webPreferences:{
         // devTools: false,

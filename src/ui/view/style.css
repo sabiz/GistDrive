@@ -2653,13 +2653,14 @@ html, body {
   -webkit-app-region: drag; }
 
 .title-bar {
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: 30px;
   font-size: 20px;
   top: 0;
   left: 0;
-  background: #49483E;
+  background: #49483e;
+  opacity: 1.0;
   color: #F92672;
   text-align: center; }
   .title-bar i {
@@ -2707,6 +2708,13 @@ html, body {
   display: none; }
 
 .main-panel {
+  overflow-y: scroll;
   float: right;
   width: calc(100% - 25%);
   height: 100%; }
+  .main-panel pre {
+    background: #23241f;
+    color: #f8f8f2; }
+
+.main-panel::-webkit-scrollbar {
+  display: none; }

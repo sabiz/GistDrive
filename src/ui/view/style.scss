@@ -26,13 +26,14 @@ html,body {
 }
 
 .title-bar {
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: $titleHeight;
   font-size: $titleHeight - 10;
   top: 0;
   left: 0;
-  background: $uiColor;
+  background: rgba($uiColor,1.0);
+  opacity: 1.0;
   color: $accentColor;
   text-align: center;
     i {
@@ -95,7 +96,17 @@ html,body {
 }
 
 .main-panel {
+    overflow-y: scroll;
     float:right;
     width: calc(100% - #{$sidePanelWidth});
     height: 100%;
+
+    pre{
+        background: #23241f;
+        color: #f8f8f2;
+    }
+}
+
+.main-panel::-webkit-scrollbar {
+    display:none;
 }

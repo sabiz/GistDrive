@@ -4,14 +4,17 @@ const markdownIt = require('markdown-it');
 const highlightJs = require('highlight.js');
 
 const markdown = new markdownIt({
+    breaks: true,
+    linkify: true,
     highlight: (str,lang)=>{
-        if(lang && hilightJs.getLanguage(lang)) {
-            return hilightJs.hilight(lang, str, true).value;
+        if(lang) {
+            return highlightJs.highlight(lang, str, true).value;
         }
-        return '';
+        return str;
     }
 });
 
-const doc = markdown.render("#TEST :+1:");
-console.log(doc)
 
+module.exports.preview = (mdText)=>{
+    return markdown.render(mdText);
+}
