@@ -1,0 +1,112 @@
+@import 'fontawesome5/scss/fontawesome.scss';
+@import 'fontawesome5/scss/fa-solid.scss';
+@import 'monokai-sublime.css';
+
+$background: #F8F8F0;
+$uiColor: #49483E;
+$textColor: #272822;
+$accentColor: #F92672;
+$accentColor2: #FD971F;
+
+$mainFont: 'Lucida Grande','Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3',Meiryo, メイリオ, sans-serif;
+
+$titleHeight: 30px;
+$sidePanelWidth: 25%;
+$listItemHeight: 45px;
+
+html,body {
+  margin: 0;
+  height: 100%;
+  font-family: $mainFont;
+  background-color: $background;
+}
+
+.draggable {
+  -webkit-app-region: drag;
+}
+
+.title-bar {
+  position: fixed;
+  width: 100%;
+  height: $titleHeight;
+  font-size: $titleHeight - 10;
+  top: 0;
+  left: 0;
+  background: rgba($uiColor,1.0);
+  opacity: 1.0;
+  color: $accentColor;
+  text-align: center;
+    i {
+      -webkit-app-region: no-drag;
+      display: inline-block;
+      position: absolute;
+      right: 10px;
+      top: 5px;
+    }
+    .fa-power-off:hover:before {
+      color: $accentColor;
+    }
+    .fa-power-off:before {
+      color: $background;
+    }
+}
+
+.content-area {
+    position: absolute;
+    top: $titleHeight;
+    width: 100%;
+    height: calc(100% - #{$titleHeight});
+}
+
+.side-panel {
+    overflow-y: scroll;
+    float:left;
+    width: calc(#{$sidePanelWidth} - 4px);
+    height: 100%;
+    border-right: solid 4px $uiColor;
+    box-sizing:border-box;
+    padding: 0px;
+
+
+    ul {
+        list-style:none;
+        margin: 0;
+        padding: 0;
+
+        li {
+            width: 100%;
+            height: $listItemHeight;
+            line-height: $listItemHeight;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            border-bottom: solid 2px $uiColor;
+            box-sizing:border-box;
+
+            &:hover {
+                background-color:darken($background, 15%);
+            }
+
+        }
+    }
+
+}
+.side-panel::-webkit-scrollbar {
+    display:none;
+}
+
+.main-panel {
+    overflow-y: scroll;
+    float:right;
+    width: calc(100% - #{$sidePanelWidth});
+    height: 100%;
+
+    pre{
+        background: #23241f;
+        color: #f8f8f2;
+    }
+}
+
+.main-panel::-webkit-scrollbar {
+    display:none;
+}

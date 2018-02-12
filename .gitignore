@@ -87,3 +87,7 @@ tags
 
 ### GistDrive Config ###
 conf.json
+
+### parcel ###
+.cache
+content
