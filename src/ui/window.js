@@ -1,6 +1,6 @@
 'use strict';
 
-const {app, BrowserWindow} = require('electron');
+const {app, BrowserWindow, ipcMain} = require('electron');
 const path = require('path');
 
 const WINDOW_OPTIONS = {
@@ -23,30 +23,36 @@ const WINDOW_OPTIONS = {
     },
 }
 
-class Window{
-    constructor(onClose){
-        this.win = null;
-        app.on('ready',this.createWindow);
-        app.on('window-all-closed', ()=>{
-            onClose.call();
-            app.quit();
-        });
-        app.on('active',()=>{
-            if(this.win === null){
-                this.createWindow();
-            }
-        });
-    }
+let win;
+let msgQueue = [];
+let self = this;
+module.exports.create = (onClose)=>{
 
-    createWindow(){
-        this.win = new BrowserWindow(WINDOW_OPTIONS);
+    const createWindow = () => {
+        win = new BrowserWindow(WINDOW_OPTIONS);
         // this.win.loadURL(path.join(process.cwd(),'content','index.html'));
-        this.win.loadURL(path.join(__dirname,'view','index.html'));
-        this.win.on('closed', ()=>{this.win = null});
-        this.win.webContents.openDevTools();
+        win.loadURL(path.join(__dirname,'view','index.html'));
+        win.on('closed', ()=>{win = null});
+        win.webContents.openDevTools();
+        win.webContents.on("did-finish-load",()=>{
+            msgQueue.forEach((v)=>{
+                self.request(v.callBack,v.ch,v.params);
+            });
+            msgQueue = [];
+        });
     }
+    app.on('ready',createWindow);
+    app.on('window-all-closed', ()=>{
+        onClose.call();
+        app.quit();
+    });
+};
 
+module.exports.request = (callBack, ch ,...params)=>{
+    if(!win) {
+        msgQueue.push({callBack ,ch, params});
+        return;
+    }
+    win.webContents.send(ch,params);
+    ipcMain.on(ch,(ev,...args)=>{callBack(...args);});
 }
-
-module.exports = Window;
-

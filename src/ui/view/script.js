@@ -1,7 +1,10 @@
 'use strict'
 
+const {ipcRenderer} = require('electron');
+
 const titlebar = require('./titlebar/titlebar');
 const preview = require('./preview/preview');
+const channel = require('../channel');
 
 
 function render(mdText) {
@@ -9,8 +12,27 @@ function render(mdText) {
 }
 
 window.addEventListener("load",()=>{
-
     render(mdTextSample);
+});
+
+ipcRenderer.on(channel.REQUEST_USER_NAME,()=>{
+    // swal({
+    //     text: 'Github user name ?',
+    //     content: "input",
+    //     button: {text: "Enter",closeModal: false,},
+    //   }).then(name => {
+    //     ipcRenderer.send(channel.REQUEST_USER_NAME, name);
+    //   });
+});
+
+ipcRenderer.on(channel.REQUEST_ENCRYPT_KEY,()=>{
+    // swal({
+    //     text: 'Github user name ?',
+    //     content: "password",
+    //     button: {text: "Enter",closeModal: false,},
+    //   }).then(name => {
+    //     ipcRenderer.send(channel.REQUEST_USER_NAME, name);
+    //   });
 });
 
 const mdTextSample = "# 見出し1（h1）\n\
