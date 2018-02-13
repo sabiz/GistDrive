@@ -54,5 +54,7 @@ module.exports.request = (callBack, ch ,...params)=>{
         return;
     }
     win.webContents.send(ch,params);
-    ipcMain.on(ch,(ev,...args)=>{callBack(...args);});
+    if(callBack){
+        ipcMain.on(ch,(ev,...args)=>{callBack(...args);});
+    }
 }

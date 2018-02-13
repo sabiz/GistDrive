@@ -1,6 +1,9 @@
-'use strict'
+'use strict';
 
 const {ipcRenderer} = require('electron');
+const alertify = require('alertifyjs');
+alertify.set('notifier','position', 'top-center');
+//alertify.set('notifier','delay', 1000); DEBUG notify
 
 const titlebar = require('./titlebar/titlebar');
 const preview = require('./preview/preview');
@@ -16,24 +19,24 @@ window.addEventListener("load",()=>{
 });
 
 ipcRenderer.on(channel.REQUEST_USER_NAME,()=>{
-    // swal({
-    //     text: 'Github user name ?',
-    //     content: "input",
-    //     button: {text: "Enter",closeModal: false,},
-    //   }).then(name => {
-    //     ipcRenderer.send(channel.REQUEST_USER_NAME, name);
-    //   });
+    alertify.prompt( '', 'Github user name ?', '',
+               (evt, value)=>ipcRenderer.send(channel.REQUEST_USER_NAME, value),
+               ()=>alertify.error('TODO: Cancel')).set('closable', false);
 });
 
 ipcRenderer.on(channel.REQUEST_ENCRYPT_KEY,()=>{
-    // swal({
-    //     text: 'Github user name ?',
-    //     content: "password",
-    //     button: {text: "Enter",closeModal: false,},
-    //   }).then(name => {
-    //     ipcRenderer.send(channel.REQUEST_USER_NAME, name);
-    //   });
+    alertify.prompt( '', 'Password crypt key ?', '',
+               (evt, value)=>ipcRenderer.send(channel.REQUEST_ENCRYPT_KEY, value),
+               ()=>alertify.error('TODO: Cancel')).set('type', 'password').set('closable', false);
 });
+
+ipcRenderer.on(channel.REQUEST_PASSWORD,()=>{
+    alertify.prompt( '', 'Github account password ?', '',
+               (evt, value)=>ipcRenderer.send(channel.REQUEST_PASSWORD, value),
+               ()=>alertify.error('TODO: Cancel')).set('type', 'password').set('closable', false);
+});
+
+ipcRenderer.on(channel.SHOW_ERROR,(ev,args)=>alertify.error(args[0]));
 
 const mdTextSample = "# 見出し1（h1）\n\
 見出し1（h1）  \n\

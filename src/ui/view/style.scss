@@ -1,6 +1,8 @@
-@import 'fontawesome5/scss/fontawesome.scss';
-@import 'fontawesome5/scss/fa-solid.scss';
-@import 'monokai-sublime.css';
+@import 'csslib/fontawesome5/scss/fontawesome.scss';
+@import 'csslib/fontawesome5/scss/fa-solid.scss';
+@import 'csslib/monokai-sublime.scss';
+@import 'csslib/alertify.min.scss';
+@import 'csslib/default.min.scss';
 
 $background: #F8F8F0;
 $uiColor: #49483E;
@@ -20,7 +22,9 @@ html,body {
   font-family: $mainFont;
   background-color: $background;
 }
-
+:focus {
+    outline: 0 !important;
+}
 .draggable {
   -webkit-app-region: drag;
 }
@@ -109,4 +113,14 @@ html,body {
 
 .main-panel::-webkit-scrollbar {
     display:none;
+}
+
+.alertify-notifier .ajs-message {
+    border: none !important;
+    text-shadow: none !important;
+    border-radius: 0 !important;
+}
+
+.alertify .ajs-dialog {
+    border-radius: 0 !important;
 }

@@ -13,6 +13,7 @@
   "repository": "https://github.com/sabiz/GistDrive",
   "license": "MIT",
   "dependencies": {
+    "alertifyjs": "^1.11.0",
     "electron": "^1.7.11",
     "gists": "^1.0.1",
     "highlight.js": "^9.12.0",
