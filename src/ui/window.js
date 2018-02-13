@@ -48,13 +48,19 @@ module.exports.create = (onClose)=>{
     });
 };
 
+const register = (callBack,ch)=>{
+    if(callBack){
+        ipcMain.on(ch,(ev,...args)=>{callBack(...args);});
+    }
+}
+module.exports.register = register;
+
 module.exports.request = (callBack, ch ,...params)=>{
     if(!win) {
         msgQueue.push({callBack ,ch, params});
         return;
     }
     win.webContents.send(ch,params);
-    if(callBack){
-        ipcMain.on(ch,(ev,...args)=>{callBack(...args);});
-    }
+    register(callBack,ch);
 }
+

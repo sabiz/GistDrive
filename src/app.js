@@ -43,7 +43,7 @@ const onPassword = password => {
 }
 
 const connectGist = ()=>{
-    return new Promise((resolve,reject)=>{
+    new Promise((resolve,reject)=>{
         const name = conf.get(CONFIG_GITHUB_NAME);
         const pass = conf.getAndDecrypt(CONFIG_GITHUB_PASSWORD,key);
         gistClient = new Gists({
@@ -58,6 +58,8 @@ const connectGist = ()=>{
             makeGistList(res);
             resolve();
         });
+        makeGistList(dummy);
+        resolve();
     }).catch(error=>{
         console.log(error);
         window.request(null,Channel.SHOW_ERROR,error);
@@ -65,14 +67,28 @@ const connectGist = ()=>{
 }
 
 const makeGistList = gists=> {
-    console.log(Array.isArray(gists))
-    gists.forEach((v)=>{
+    gistList = gists.map((v)=>{
         let tmp = {};
         tmp.description = v.description;
         const name = Object.keys(v.files)[0];
         tmp.name = name;
-        tmp.url = v.files[name].raw_url;
-        gistList.push(tmp);
+        tmp.id = v.id;
+        return tmp;
+    });
+    window.request(null,Channel.REQUEST_UPDATE_LIST,gistList);
+}
+
+const getGistItem = (id,name) => {
+    gistClient.download({id},(err,res)=>{
+        if(err ||res.message){
+            window.request(null,Channel.SHOW_ERROR,res.message || err);
+            return;
+        };
+        window.request(null,Channel.REQUEST_GIST_ITEM,{
+            id:res.id,
+            language: res.files[name].language,
+            content: res.files[name].content,
+        });
     });
 }
 
@@ -85,4 +101,5 @@ module.exports.start = () => {
             return;
         }
         window.request(onEncryptKey,Channel.REQUEST_ENCRYPT_KEY);
+        window.register(getGistItem, Channel.REQUEST_GIST_ITEM);
 }
