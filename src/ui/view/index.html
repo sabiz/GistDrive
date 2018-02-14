@@ -6,38 +6,15 @@
   </head>
   <body>
     <div class="content-area">
-        <div class="side-panel">
+        <div class="side-panel" id="list">
             <ul>
-                <li>TEST1</li>
-                <li>TEST2AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</li>
-                <li>TEST3</li>
-                <li>TEST4</li>
-                <li>TEST5</li>
-                <li>TEST6</li>
-                <li>TEST7</li>
-                <li>TEST7</li>
-                <li>TEST7</li>
-                <li>TEST7</li>
-                <li>TEST7</li>
-                <li>TEST7</li>
-                <li>TEST7</li>
-                <li>TEST7</li>
-                <li>TEST7</li>
-                <li>TEST7</li>
-                <li>TEST7</li>
-                <li>TEST7</li>
-                <li>TEST7</li>
-                <li>TEST7</li>
-                <li>TEST7</li>
-                <li>TEST7</li>
-                <li>TEST7</li>
-                <li>TEST7</li>
-                <li>TEST7</li>
-                <li>TEST7</li>
+                <li v-for="(item, index) in items" v-on:click="onItemClick(index)">
+                    {{ item.name }}
+                </li>
             </ul>
         </div>
         <div class="main-panel" id="markdown">
-            MainArea
+            <div v-html="rendered"></div>
         </div>
     </div>
     <div class="title-bar draggable">
