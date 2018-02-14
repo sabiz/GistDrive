@@ -3,44 +3,101 @@
 const Gists = require('gists');
 
 const Config = require('./lib/config');
-const Window = require('./ui/window');
+const window = require('./ui/window');
+const Channel = require('./ui/channel');
 
 const NAME_CONFIG_FILE = 'conf.json';
 const CONFIG_GITHUB_NAME = 'GITHUB_USER_NAME';
 const CONFIG_GITHUB_PASSWORD = 'GITHUB_PASSWORD';
 
-class App {
-    constructor(){
-        this.conf = new Config(NAME_CONFIG_FILE,{autoSave:true});
-        this.gists = {};
-        this.window = new Window(this.onClose);
-    }
+const conf = new Config(NAME_CONFIG_FILE,{autoSave:true});
+let gistClient;
+let gistList;
+let key;
 
-    start() {
-        this.conf.load();
-        // let name = this.conf.get(CONFIG_GITHUB_NAME);
-        // if(!name){
-        //     name = prompt('Github user name > ');
-        //     this.conf.set(CONFIG_GITHUB_NAME, name);
-        // }
-        // const key = prompt.hide('password Encrypt key > ');
-        // let password = this.conf.getAndDecrypt(CONFIG_GITHUB_PASSWORD, key);
-        // if(!password){
-        //     password = prompt.hide('Github password > ');
-        //     this.conf.setAndEncrypt(CONFIG_GITHUB_PASSWORD, password, key);
-        // }
-        // let gist = new Gists({
-        //     username: name,
-        //     password: password
-        // });
-        // gist.list({user:name},(err,res)=>{
-        //     console.log(err,res);
-        // });
-    }
-
-    onClose() {
-
-    }
+const onClose = ()=>{
+    console.log("close");
 }
 
-module.exports = App;
+const onUserName = userName => {
+    //TODO empty value
+    conf.set(CONFIG_GITHUB_NAME, userName);
+    window.request(onEncryptKey,Channel.REQUEST_ENCRYPT_KEY);
+}
+
+const onEncryptKey = typedKey =>{
+    //TODO empty value
+    key = typedKey;
+    let password = conf.getAndDecrypt(CONFIG_GITHUB_PASSWORD, key);
+    if(!password){
+        window.request(onPassword,Channel.REQUEST_PASSWORD);
+        return;
+    }
+    connectGist();
+}
+
+const onPassword = password => {
+    //TODO empty value
+    conf.setAndEncrypt(CONFIG_GITHUB_PASSWORD, password, key);
+    connectGist();
+}
+
+const connectGist = ()=>{
+    new Promise((resolve,reject)=>{
+        const name = conf.get(CONFIG_GITHUB_NAME);
+        const pass = conf.getAndDecrypt(CONFIG_GITHUB_PASSWORD,key);
+        gistClient = new Gists({
+            username: name,
+            password: pass,
+        });
+        gistClient.list({user:name},(err,res)=>{
+            if(err ||res.message){
+                reject(res.message || "Github connect error.");
+                return;
+            }
+            makeGistList(res);
+            resolve();
+        });
+    }).catch(error=>{
+        console.log(error);
+        window.request(null,Channel.SHOW_ERROR,error);
+    });
+}
+
+const makeGistList = gists=> {
+    gistList = gists.map((v)=>{
+        let tmp = {};
+        tmp.description = v.description;
+        const name = Object.keys(v.files)[0];
+        tmp.name = name;
+        tmp.id = v.id;
+        return tmp;
+    });
+    window.response(Channel.REQUEST_UPDATE_LIST,gistList);
+}
+
+const getGistItem = (id,name) => {
+    gistClient.download({id},(err,res)=>{
+        if(err ||res.message){
+            window.request(null,Channel.SHOW_ERROR,res.message || err);
+            return;
+        };
+        window.response(Channel.REQUEST_GIST_ITEM,{
+            id:res.id,
+            language: res.files[name].language,
+            content: res.files[name].content,
+        });
+    });
+}
+
+module.exports.start = () => {
+        window.create(onClose);
+        conf.load();
+        let name = conf.get(CONFIG_GITHUB_NAME);
+        if(!name){
+            window.request(onUserName,Channel.REQUEST_USER_NAME);
+            return;
+        }
+        window.request(onEncryptKey,Channel.REQUEST_ENCRYPT_KEY);
+        window.register(getGistItem, Channel.REQUEST_GIST_ITEM);
+}

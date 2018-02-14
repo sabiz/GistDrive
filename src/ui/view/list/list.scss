@@ -1,0 +1,41 @@
+$listItemHeight: 45px;
+$sidePanelWidth: 25%;
+
+
+.side-panel {
+    overflow-y: scroll;
+    float:left;
+    width: calc(#{$sidePanelWidth} - 4px);
+    height: 100%;
+    border-right: solid 4px $uiColor;
+    box-sizing:border-box;
+    padding: 0px;
+
+
+    ul {
+        list-style:none;
+        margin: 0;
+        padding: 0;
+
+        li {
+            width: 100%;
+            height: $listItemHeight;
+            line-height: $listItemHeight;
+            padding-left: 15px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            border-bottom: solid 2px $uiColor;
+            box-sizing:border-box;
+
+            &:hover {
+                background-color:darken($background, 15%);
+            }
+
+        }
+    }
+
+}
+.side-panel::-webkit-scrollbar {
+    display:none;
+}
