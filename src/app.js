@@ -58,8 +58,6 @@ const connectGist = ()=>{
             makeGistList(res);
             resolve();
         });
-        makeGistList(dummy);
-        resolve();
     }).catch(error=>{
         console.log(error);
         window.request(null,Channel.SHOW_ERROR,error);
@@ -75,7 +73,7 @@ const makeGistList = gists=> {
         tmp.id = v.id;
         return tmp;
     });
-    window.request(null,Channel.REQUEST_UPDATE_LIST,gistList);
+    window.response(Channel.REQUEST_UPDATE_LIST,gistList);
 }
 
 const getGistItem = (id,name) => {
@@ -84,7 +82,7 @@ const getGistItem = (id,name) => {
             window.request(null,Channel.SHOW_ERROR,res.message || err);
             return;
         };
-        window.request(null,Channel.REQUEST_GIST_ITEM,{
+        window.response(Channel.REQUEST_GIST_ITEM,{
             id:res.id,
             language: res.files[name].language,
             content: res.files[name].content,

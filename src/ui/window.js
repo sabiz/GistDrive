@@ -64,3 +64,10 @@ module.exports.request = (callBack, ch ,...params)=>{
     register(callBack,ch);
 }
 
+module.exports.response = (ch ,...params)=>{
+    if(!win) {
+        msgQueue.push({callBack:null ,ch, params});
+        return;
+    }
+    win.webContents.send(ch,params);
+}
