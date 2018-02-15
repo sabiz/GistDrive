@@ -1,27 +1,21 @@
-'use strict';
-
 const fs = require('fs');
 const path = require('path');
-
 const crypt = require('./crypt');
 
-const OPTION_AUTO_SAVE = "autoSave";
-
 class Config {
-
-    constructor(fileName, options){
+    constructor(fileName, options) {
         this.raw = {};
-        this.fileName = path.join(process.cwd(),fileName);
-        if(options) {
+        this.fileName = path.join(process.cwd(), fileName);
+        if (options) {
             this.autoSave = options.autoSave || false;
         }
     }
 
-    load(){
+    load() {
         try {
-            this.raw = require(this.fileName);
-        }catch(e) {
-            console.warn(e.code," @ Config.load");
+            this.raw = require(this.fileName); // eslint-disable-line
+        } catch (e) {
+            console.warn(e.code, ' @ Config.load');
             this.raw = {};
             this.save();
         }
@@ -29,7 +23,7 @@ class Config {
     }
 
     save() {
-        fs.writeFileSync(this.fileName,JSON.stringify(this.raw,null," "));
+        fs.writeFileSync(this.fileName, JSON.stringify(this.raw, null, ' '));
     }
 
     get(name) {
@@ -38,7 +32,7 @@ class Config {
 
     getAndDecrypt(name, key) {
         let value = this.get(name);
-        if(value){
+        if (value) {
             value = crypt.decryptString(value, key);
         }
         return value;
@@ -46,18 +40,15 @@ class Config {
 
     set(name, value) {
         this.raw[name] = value;
-        if(this.autoSave){
+        if (this.autoSave) {
             this.save();
         }
     }
 
     setAndEncrypt(name, value, key) {
-        value = crypt.encryptString(value, key);
-        this.set(name,value);
+        const tmpValue = crypt.encryptString(value, key);
+        this.set(name, tmpValue);
     }
 }
 
-
-
 module.exports = Config;
-

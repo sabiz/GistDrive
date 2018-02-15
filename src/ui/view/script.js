@@ -1,12 +1,12 @@
 const { ipcRenderer } = require('electron');
 const alertify = require('alertifyjs');
-const titlebar = require('./titlebar/titlebar');
+const titlebar = require('./titlebar/titlebar'); // eslint-disable-line
 const preview = require('./preview/preview');
 const list = require('./list/list');
 const channel = require('../channel');
 
 alertify.set('notifier', 'position', 'top-center');
-//alertify.set('notifier','delay', 1000); DEBUG notify
+// alertify.set('notifier','delay', 1000); DEBUG notify
 
 const gists = [];
 

@@ -1,9 +1,7 @@
-'use strict';
-
-module.exports.contentLoadAction = (func)=>{
-    if (document.readyState === 'complete' || document.readyState === 'interactive'){
+module.exports.contentLoadAction = (func) => {
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
         func();
-    } else{
+    } else {
         document.addEventListener('DOMContentLoaded', func);
     }
 };

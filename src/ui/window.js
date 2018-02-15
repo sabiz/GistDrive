@@ -1,6 +1,4 @@
-'use strict';
-
-const {app, BrowserWindow, ipcMain} = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 
 const WINDOW_OPTIONS = {
@@ -10,64 +8,63 @@ const WINDOW_OPTIONS = {
     minimizable: false,
     maximizable: false,
     fullscreenable: false,
-    center:true,
+    center: true,
     kiosk: true,
-    title: "GistDrive",
-    //icon: TODO,
+    title: 'GistDrive',
+    icon: 'icon.ico',
     frame: false,
     darkTheme: true,
-    webPreferences:{
+    webPreferences: {
         // devTools: false,
         nodeIntegrationInWorker: true,
         preload: true,
     },
-}
+};
 
 let win;
 let msgQueue = [];
-let self = this;
-module.exports.create = (onClose)=>{
-
+const self = this;
+module.exports.create = (onClose) => {
     const createWindow = () => {
         win = new BrowserWindow(WINDOW_OPTIONS);
         // this.win.loadURL(path.join(process.cwd(),'content','index.html'));
-        win.loadURL(path.join(__dirname,'view','index.html'));
-        win.on('closed', ()=>{win = null});
+        win.loadURL(path.join(__dirname, 'view', 'index.html'));
+        win.on('closed', () => { win = null; });
         win.webContents.openDevTools();
-        win.webContents.on("did-finish-load",()=>{
-            msgQueue.forEach((v)=>{
-                self.request(v.callBack,v.ch,v.params);
+        win.webContents.on('did-finish-load', () => {
+            msgQueue.forEach((v) => {
+                self.request(v.callBack, v.ch, v.params);
             });
             msgQueue = [];
         });
-    }
-    app.on('ready',createWindow);
-    app.on('window-all-closed', ()=>{
+    };
+    app.on('ready', createWindow);
+    app.on('window-all-closed', () => {
         onClose.call();
         app.quit();
     });
 };
 
-const register = (callBack,ch)=>{
-    if(callBack){
-        ipcMain.on(ch,(ev,...args)=>{callBack(...args);});
+const register = (callBack, ch) => {
+    if (callBack) {
+        ipcMain.on(ch, (ev, ...args) => { callBack(...args); });
     }
-}
+};
 module.exports.register = register;
 
-module.exports.request = (callBack, ch ,...params)=>{
-    if(!win) {
-        msgQueue.push({callBack ,ch, params});
+module.exports.request = (callBack, ch, ...params) => {
+    if (!win) {
+        msgQueue.push({ callBack, ch, params });
         return;
     }
-    win.webContents.send(ch,params);
-    register(callBack,ch);
-}
+    win.webContents.send(ch, params);
+    register(callBack, ch);
+};
 
-module.exports.response = (ch ,...params)=>{
-    if(!win) {
-        msgQueue.push({callBack:null ,ch, params});
+module.exports.response = (ch, ...params) => {
+    if (!win) {
+        msgQueue.push({ callBack: null, ch, params });
         return;
     }
-    win.webContents.send(ch,params);
-}
+    win.webContents.send(ch, params);
+};
