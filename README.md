@@ -10,4 +10,4 @@ Github Gist viewer for desktop
 
 # Thanks
 * App Icon
- * Freepik from [www.flaticon.com](https://www.flaticon.com/packs/success-7)
+  * Freepik from [www.flaticon.com](https://www.flaticon.com/packs/success-7)
