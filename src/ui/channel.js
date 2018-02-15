@@ -6,4 +6,4 @@ module.exports = {
     REQUEST_GIST_ITEM: 'REQUEST_GIST_ITEM',
 
     SHOW_ERROR: 'SHOW_ERROR',
-}
+};
