@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run scss && electron .",
     "scss": "node-sass src/ui/view/style.scss src/ui/view/style.css -r",
-    "scss-w": "node-sass src/ui/view/style.scss src/ui/view/style.css -r -w"
+    "scss-w": "node-sass src/ui/view/style.scss src/ui/view/style.css -r -w",
+    "pack": "electron-packager . GistDrive --platform=win32 --arch=x64 --electron-version=1.7.11 --icon=icon.ico --out=dist"
   },
   "author": "sabiz",
   "repository": "https://github.com/sabiz/GistDrive",
@@ -21,6 +22,7 @@
     "vue": "^2.5.13"
   },
   "devDependencies": {
+    "electron-packager": "^11.0.1",
     "eslint": "^4.17.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.8.0",
