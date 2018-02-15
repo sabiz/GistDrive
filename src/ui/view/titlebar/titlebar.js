@@ -1,15 +1,13 @@
-'use strict';
-
 const dom = require('../util/dom');
 
-module.exports.setTitle = (title)=>{
+module.exports.setTitle = (title) => {
     const titlebar = document.querySelector('.title-bar span');
     titlebar.textContent = title;
-}
+};
 
 function init() {
-    const w = require('electron').remote.getCurrentWindow();
+    const w = require('electron').remote.getCurrentWindow(); // eslint-disable-line
     const buttonClose = document.querySelector('.title-bar i');
-    buttonClose.addEventListener('click', () => {w.close();});
+    buttonClose.addEventListener('click', () => { w.close(); });
 }
 dom.contentLoadAction(init);
