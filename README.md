@@ -5,6 +5,7 @@ Github Gist viewer for desktop
 - [ ] Cache gist data
 - [ ] Any error case
 - [ ] design...
+- [ ] Fix Lint error
 
 # Thanks
 * App Icon
