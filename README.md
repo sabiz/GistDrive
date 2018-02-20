@@ -6,7 +6,7 @@ Github Gist viewer for desktop
 - [ ] Any error case
 - [ ] design...
 - [ ] Support proxy
-- [ ] Logging
+- [x] Logging
 
 # Thanks
 * App Icon
