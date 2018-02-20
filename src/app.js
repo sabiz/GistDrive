@@ -1,6 +1,7 @@
 const Gists = require('gists');
 
 const Config = require('./lib/config');
+const Log = require('./lib/log');
 const window = require('./ui/window');
 const Channel = require('./ui/channel');
 
@@ -14,7 +15,7 @@ let gistList;
 let key;
 
 const onClose = () => {
-    console.log('close');
+    Log.info('onClose');
 };
 
 const makeGistList = (gists) => {
@@ -47,7 +48,7 @@ const connectGist = () => {
             resolve();
         });
     }).catch((error) => {
-        console.log(error);
+        Log.error(error);
         window.request(null, Channel.SHOW_ERROR, error);
     });
 };
