@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const crypt = require('./crypt');
+const Log = require('./log');
 
 class Config {
     constructor(fileName, options) {
@@ -15,7 +16,7 @@ class Config {
         try {
             this.raw = require(this.fileName); // eslint-disable-line
         } catch (e) {
-            console.warn(e.code, ' @ Config.load');
+            Log.error(e.code, ' @ Config.load');
             this.raw = {};
             this.save();
         }
