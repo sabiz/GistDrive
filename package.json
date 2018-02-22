@@ -8,7 +8,8 @@
     "start": "npm run scss && electron .",
     "scss": "node-sass src/ui/view/style.scss src/ui/view/style.css -r",
     "scss-w": "node-sass src/ui/view/style.scss src/ui/view/style.css -r -w",
-    "pack": "electron-packager . GistDrive --platform=win32 --arch=x64 --electron-version=1.7.11 --icon=icon.ico --out=dist"
+    "pack": "electron-packager . GistDrive --platform=win32 --arch=x64 --electron-version=1.7.11 --icon=icon.ico --out=dist",
+    "proxy-mock": "nodemon scripts/proxy.js"
   },
   "author": "sabiz",
   "repository": "https://github.com/sabiz/GistDrive",
@@ -29,6 +30,7 @@
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.6.1",
-    "node-sass": "^4.7.2"
+    "node-sass": "^4.7.2",
+    "nodemon": "^1.15.1"
   }
 }
