@@ -1,4 +1,5 @@
 const Gists = require('gists');
+const tunnel = require('tunnel');
 
 const Config = require('./lib/config');
 const Log = require('./lib/log');
@@ -8,6 +9,8 @@ const Channel = require('./ui/channel');
 const NAME_CONFIG_FILE = 'conf.json';
 const CONFIG_GITHUB_NAME = 'GITHUB_USER_NAME';
 const CONFIG_GITHUB_PASSWORD = 'GITHUB_PASSWORD';
+const CONFIG_PROXY_HOST = 'CONFIG_PROXY_HOST';
+const CONFIG_PROXY_PORT = 'CONFIG_PROXY_PORT';
 
 const conf = new Config(NAME_CONFIG_FILE, { autoSave: true });
 let gistClient;
@@ -35,13 +38,24 @@ const connectGist = () => {
     new Promise((resolve, reject) => {
         const name = conf.get(CONFIG_GITHUB_NAME);
         const pass = conf.getAndDecrypt(CONFIG_GITHUB_PASSWORD, key);
-        gistClient = new Gists({
-            username: name,
-            password: pass,
-        });
-        gistClient.list({ user: name }, (err, res) => {
+        const proxyHost = conf.get(CONFIG_PROXY_HOST);
+        const proxyPort = conf.get(CONFIG_PROXY_PORT);
+        const gistOption = { username: name, password: pass };
+        if (proxyHost && proxyPort) {
+            gistOption.agent = tunnel.httpsOverHttp({
+                proxy: {
+                    host: proxyHost,
+                    port: proxyPort,
+                },
+            });
+            gistOption.agent.defaultPort = 443;
+        }
+        gistClient = new Gists(gistOption);
+        gistClient.list({
+            user: name,
+        }, (err, res) => {
             if (err || res.message) {
-                reject(res.message || 'Github connect error.');
+                reject(err || res.message || 'Github connect error.');
                 return;
             }
             makeGistList(res);
