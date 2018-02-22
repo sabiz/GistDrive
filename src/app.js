@@ -47,13 +47,14 @@ const connectGist = () => {
                     port: proxyPort,
                 },
             });
+            gistOption.agent.defaultPort = 443;
         }
         gistClient = new Gists(gistOption);
         gistClient.list({
             user: name,
         }, (err, res) => {
             if (err || res.message) {
-                reject(res.message || 'Github connect error.');
+                reject(err || res.message || 'Github connect error.');
                 return;
             }
             makeGistList(res);
