@@ -5,7 +5,7 @@ const WINDOW_OPTIONS = {
     width: 1024,
     height: 640,
     resizable: false,
-    minimizable: false,
+    minimizable: true,
     maximizable: false,
     fullscreenable: false,
     center: true,
