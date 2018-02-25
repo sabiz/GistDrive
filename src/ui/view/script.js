@@ -69,6 +69,7 @@ ipcRenderer.on(channel.REQUEST_GIST_ITEM, (ev, args) => {
             updateItem = gists[i];
         }
     });
+    document.getElementById('markdown').scrollTop = 0;
     renderMarkdown(updateItem.content);
 });
 

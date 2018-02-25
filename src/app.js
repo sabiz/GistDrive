@@ -1,4 +1,6 @@
 const Gists = require('gists');
+// const Gists = require('./lib/dummy/gists'); // for offline test
+
 const tunnel = require('tunnel');
 
 const Config = require('./lib/config');

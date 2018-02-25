@@ -1,18 +1,20 @@
-const MarkdownIt = require('markdown-it');
+const marked = require('marked');
 const highlightJs = require('highlight.js');
+const emojione = require('emojione');
 const Vue = require('../../../../node_modules/vue/dist/vue');
 
-const markdownRender = new MarkdownIt({
+marked.setOptions({
+    renderer: new marked.Renderer(),
+    gfm: true,
+    tables: true,
     breaks: true,
-    linkify: true,
-    highlight: (str, lang) => {
-        if (lang) {
-            return highlightJs.highlight(lang, str, true).value;
-        }
-        return str;
-    },
+    pedantic: false,
+    sanitize: false,
+    smartLists: true,
+    smartypants: false,
+    xhtml: false,
+    highlight: str => highlightJs.highlightAuto(str).value,
 });
-
 
 const markdown = new Vue({
     el: '#markdown',
@@ -22,11 +24,11 @@ const markdown = new Vue({
     },
     watch: {
         source: (val) => {
-            markdown.rendered = markdownRender.render(val);
+            markdown.rendered = marked(val);
         },
     },
 });
 
 module.exports.preview = (mdText) => {
-    markdown.source = mdText;
+    markdown.source = emojione.toImage(mdText);
 };

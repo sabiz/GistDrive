@@ -3,6 +3,7 @@
 @import 'csslib/monokai-sublime.scss';
 @import 'csslib/alertify.min.scss';
 @import 'csslib/default.min.scss';
+@import 'csslib/emojione.min.scss';
 
 $background: #F8F8F0;
 $uiColor: #49483E;
@@ -45,7 +46,9 @@ html,body {
     width: calc(100% - #{$sidePanelWidth});
     height: 100%;
 
-    pre{
+    pre, blockquote{
+        width: 95%;
+        overflow-x: scroll;
         background: #23241f;
         color: #f8f8f2;
     }
