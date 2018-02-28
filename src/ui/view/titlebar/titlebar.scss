@@ -1,3 +1,4 @@
+@import '../define.scss';
 $titleHeight: 30px;
 
 .title-bar {
@@ -33,6 +34,16 @@ $titleHeight: 30px;
         color: $accentColor;
       }
       .fa-window-minimize:before {
+        color: $background;
+      }
+      .fa-bars {
+        top: 5px;
+        left: 10px;
+      }
+      .fa-bars:hover:before {
+        color: $accentColor;
+      }
+      .fa-bars:before {
         color: $background;
       }
   }

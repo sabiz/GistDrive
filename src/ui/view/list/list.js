@@ -15,7 +15,6 @@ const list = new Vue({
     },
 });
 
-
 module.exports.registerItemClick = (callBack) => {
     list.callBack = callBack;
 };
@@ -23,3 +22,4 @@ module.exports.registerItemClick = (callBack) => {
 module.exports.update = (items) => {
     list.items = [].concat(items);
 };
+

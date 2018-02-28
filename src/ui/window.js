@@ -1,6 +1,8 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 
+const menu = require('./menu/menu');
+
 const WINDOW_OPTIONS = {
     width: 1024,
     height: 640,
@@ -24,7 +26,7 @@ const WINDOW_OPTIONS = {
 let win;
 let msgQueue = [];
 const self = this;
-module.exports.create = (onClose) => {
+module.exports.create = (onClose, cb) => {
     const createWindow = () => {
         win = new BrowserWindow(WINDOW_OPTIONS);
         // this.win.loadURL(path.join(process.cwd(),'content','index.html'));
@@ -42,6 +44,9 @@ module.exports.create = (onClose) => {
     app.on('window-all-closed', () => {
         onClose.call();
         app.quit();
+    });
+    menu.initMenu((menuItem) => {
+        cb(menuItem.role);
     });
 };
 

@@ -104,14 +104,35 @@ const getGistItem = (id, name) => {
     });
 };
 
-module.exports.start = () => {
-    window.create(onClose);
+
+const updateGists = () => {
     conf.load();
     const name = conf.get(CONFIG_GITHUB_NAME);
     if (!name) {
         window.request(onUserName, Channel.REQUEST_USER_NAME);
         return;
     }
-    window.request(onEncryptKey, Channel.REQUEST_ENCRYPT_KEY);
+    if (!key) {
+        window.request(onEncryptKey, Channel.REQUEST_ENCRYPT_KEY);
+        return;
+    }
     window.register(getGistItem, Channel.REQUEST_GIST_ITEM);
+};
+
+
+const onRequestFromWindow = (channel) => {
+    Log.info('onRequestFromWindow', channel);
+    switch (channel) {
+    case Channel.REQUEST_UPDATE_LIST:
+        updateGists();
+        break;
+    default:
+        break;
+    }
+};
+
+
+module.exports.start = () => {
+    window.create(onClose, onRequestFromWindow);
+    updateGists();
 };

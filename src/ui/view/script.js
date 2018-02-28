@@ -4,6 +4,7 @@ const titlebar = require('./titlebar/titlebar'); // eslint-disable-line
 const preview = require('./preview/preview');
 const list = require('./list/list');
 const channel = require('../channel');
+const dom = require('./util/dom');
 
 alertify.set('notifier', 'position', 'top-center');
 // alertify.set('notifier','delay', 1000); DEBUG notify
@@ -24,7 +25,7 @@ function onItemClick(data) {
     }
 }
 
-window.addEventListener('load', () => {
+dom.contentLoadAction(() => {
     list.registerItemClick(onItemClick);
 });
 
