@@ -35,6 +35,7 @@ const makeGistList = (gists) => {
 
 
 const connectGist = () => {
+    // window.response(Channel.SHOW_PROGRESS);
     new Promise((resolve, reject) => {
         const name = conf.get(CONFIG_GITHUB_NAME);
         const pass = conf.getAndDecrypt(CONFIG_GITHUB_PASSWORD, key);
@@ -58,8 +59,10 @@ const connectGist = () => {
                 reject(err || res.message || 'Github connect error.');
                 return;
             }
-            makeGistList(res);
-            resolve();
+            // setTimeout(() => {
+                makeGistList(res);
+                resolve();
+            // }, 5000);
         });
     }).catch((error) => {
         Log.error(error);

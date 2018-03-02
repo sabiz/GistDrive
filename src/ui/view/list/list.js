@@ -1,23 +1,26 @@
 const Vue = require('../../../../node_modules/vue/dist/vue');
 
-const list = new Vue({
-    el: '#list',
-    data: {
-        items: [], /* {description:'',name:'',id:''} */
-        callBack: null,
-    },
+
+Vue.component('gist-list', {
+    template: '<div class="side-panel">\
+                <ul>\
+                    <li v-for="(item, index) in items" v-on:click="onItemClick(index)">\
+                        {{ item.name }}\
+                    </li>\
+                </ul>\
+                </div>',
+    props: { items: Array /* {description:'',name:'',id:''} */ },
     methods: {
         onItemClick: (index) => {
-            if (list.callBack && list.items[index]) {
-                list.callBack(list.items[index]);
+            if (this.items[index]) {
+                this.$emit('itemClick', this.items[index]);
             }
         },
     },
+    mounted() {
+        console.log(this.items);
+    },
 });
-
-module.exports.registerItemClick = (callBack) => {
-    list.callBack = callBack;
-};
 
 module.exports.update = (items) => {
     list.items = [].concat(items);

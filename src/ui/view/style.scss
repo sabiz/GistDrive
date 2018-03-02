@@ -4,8 +4,9 @@
 @import 'csslib/monokai-sublime.scss';
 @import 'csslib/alertify.min.scss';
 @import 'csslib/default.min.scss';
-@import'./list/list.scss';
-@import'./titlebar/titlebar.scss';
+@import './list/list.scss';
+@import './titlebar/titlebar.scss';
+@import './progress/progress.scss';
 
 
 html,body {

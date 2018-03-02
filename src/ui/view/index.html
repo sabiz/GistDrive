@@ -6,16 +6,11 @@
   </head>
   <body>
     <div class="content-area">
-        <div class="side-panel" id="list">
-            <ul>
-                <li v-for="(item, index) in items" v-on:click="onItemClick(index)">
-                    {{ item.name }}
-                </li>
-            </ul>
-        </div>
+        <gist-list v-on:itemClick="onItemClick" :val="gistList"/>
         <div class="main-panel" id="markdown">
             <div v-html="rendered"></div>
         </div>
+        <!-- <modal-progress /> -->
     </div>
     <div class="title-bar draggable">
       <i class="fas fa-bars"></i>

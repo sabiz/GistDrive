@@ -19,6 +19,7 @@
     "electron": "^1.7.11",
     "gists": "^1.0.1",
     "highlight.js": "^9.12.0",
+    "load-awesome": "^1.1.0",
     "log4js": "^2.5.3",
     "markdown-it": "^8.4.0",
     "tunnel": "0.0.5",
