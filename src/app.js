@@ -117,9 +117,7 @@ const updateGists = () => {
     }
     if (!key) {
         window.request(onEncryptKey, Channel.REQUEST_ENCRYPT_KEY);
-        return;
     }
-    window.register(getGistItem, Channel.REQUEST_GIST_ITEM);
 };
 
 
@@ -137,5 +135,6 @@ const onRequestFromWindow = (channel) => {
 
 module.exports.start = () => {
     window.create(onClose, onRequestFromWindow);
+    window.register(getGistItem, Channel.REQUEST_GIST_ITEM);
     updateGists();
 };

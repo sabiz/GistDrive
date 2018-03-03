@@ -6,7 +6,7 @@
   </head>
   <body>
     <div class="content-area">
-        <gist-list v-on:itemClick="onItemClick" :val="gistList"/>
+        <gist-list v-on:item-click="onItemClick" :items="gistList"/>
         <div class="main-panel" id="markdown">
             <div v-html="rendered"></div>
         </div>

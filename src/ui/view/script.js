@@ -2,7 +2,7 @@ const { ipcRenderer } = require('electron');
 const alertify = require('alertifyjs');
 const titlebar = require('./titlebar/titlebar'); // eslint-disable-line
 const preview = require('./preview/preview');
-const list = require('./list/list');
+require('./list/list');
 const progress = require('./progress/progress');
 const channel = require('../channel');
 const dom = require('./util/dom');
@@ -33,7 +33,7 @@ const app = new Vue({
                 renderMarkdown(tmpData.content);
             }
         },
-    }
+    },
 });
 
 dom.contentLoadAction(() => {
@@ -66,7 +66,7 @@ ipcRenderer.on(channel.REQUEST_PASSWORD, () => {
 });
 
 ipcRenderer.on(channel.REQUEST_UPDATE_LIST, (ev, args) => {
-    app.gistList = args;
+    app.gistList = [].concat(...args);
 });
 
 ipcRenderer.on(channel.REQUEST_GIST_ITEM, (ev, args) => {
