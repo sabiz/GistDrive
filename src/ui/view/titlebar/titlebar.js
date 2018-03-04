@@ -1,18 +1,33 @@
-const electron = require('electron');
+const { remote } = require('electron');
 
-const dom = require('../util/dom');
+const { Menu } = remote;
 
-module.exports.setTitle = (title) => {
-    const titlebar = document.querySelector('.title-bar span');
-    titlebar.textContent = title;
-};
+const Vue = require('../../../../node_modules/vue/dist/vue');
 
-function init() {
-    const w = electron.remote.getCurrentWindow(); // eslint-disable-line
-    const buttonClose = document.querySelector('.title-bar .fa-power-off');
-    buttonClose.addEventListener('click', () => { w.close(); });
-
-    const buttonMinimize = document.querySelector('.title-bar .fa-window-minimize');
-    buttonMinimize.addEventListener('click', () => { w.minimize(); });
-}
-dom.contentLoadAction(init);
+Vue.component('title-bar', {
+    template: '<div>\
+                <i class="fas fa-bars" @click="menu"></i>\
+                <span>{{title}}</span>\
+                <i class="fas fa-window-minimize" @click="minimize"></i>\
+                <i class="fas fa-power-off" @click="close"></i>\
+               </div>',
+    props: { title: String },
+    methods: {
+        close() {
+            const w = remote.getCurrentWindow();
+            w.close();
+        },
+        minimize() {
+            const w = remote.getCurrentWindow();
+            w.minimize();
+        },
+        menu(e) {
+            e.stopPropagation();
+            const menu = Menu.getApplicationMenu();
+            menu.popup({
+                x: e.pageX,
+                y: e.pageY,
+            });
+        },
+    },
+});

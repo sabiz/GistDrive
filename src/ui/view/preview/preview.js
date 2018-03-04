@@ -16,19 +16,13 @@ marked.setOptions({
     highlight: str => highlightJs.highlightAuto(str).value,
 });
 
-const markdown = new Vue({
-    el: '#markdown',
-    data: {
-        source: '',
-        rendered: '',
-    },
+Vue.component('gist-preview', {
+    template: '<div v-html="rendered"></div>',
+    props: { source: String },
+    data: () => ({ rendered: this.items }),
     watch: {
-        source: (val) => {
-            markdown.rendered = marked(val);
+        source(v) {
+            this.rendered = marked(emojione.toImage(v));
         },
     },
 });
-
-module.exports.preview = (mdText) => {
-    markdown.source = emojione.toImage(mdText);
-};

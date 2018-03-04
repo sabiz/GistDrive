@@ -1,18 +1,13 @@
+@import 'define.scss';
 @import 'csslib/fontawesome5/scss/fontawesome.scss';
 @import 'csslib/fontawesome5/scss/fa-solid.scss';
 @import 'csslib/monokai-sublime.scss';
 @import 'csslib/alertify.min.scss';
 @import 'csslib/default.min.scss';
 @import 'csslib/emojione.min.scss';
-
-$background: #F8F8F0;
-$uiColor: #49483E;
-$textColor: #272822;
-$accentColor: #F92672;
-$accentColor2: #FD971F;
-
-$mainFont: 'Lucida Grande','Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3',Meiryo, メイリオ, sans-serif;
-
+@import './list/list.scss';
+@import './titlebar/titlebar.scss';
+@import './progress/progress.scss';
 
 
 html,body {
@@ -28,8 +23,6 @@ html,body {
   -webkit-app-region: drag;
 }
 
-@import'./list/list.scss';
-@import'./titlebar/titlebar.scss';
 
 .content-area {
     position: absolute;

@@ -37,6 +37,7 @@ const makeGistList = (gists) => {
 
 
 const connectGist = () => {
+    // window.response(Channel.SHOW_PROGRESS);
     new Promise((resolve, reject) => {
         const name = conf.get(CONFIG_GITHUB_NAME);
         const pass = conf.getAndDecrypt(CONFIG_GITHUB_PASSWORD, key);
@@ -60,8 +61,10 @@ const connectGist = () => {
                 reject(err || res.message || 'Github connect error.');
                 return;
             }
-            makeGistList(res);
-            resolve();
+            // setTimeout(() => {
+                makeGistList(res);
+                resolve();
+            // }, 5000);
         });
     }).catch((error) => {
         Log.error(error);
@@ -106,14 +109,34 @@ const getGistItem = (id, name) => {
     });
 };
 
-module.exports.start = () => {
-    window.create(onClose);
+
+const updateGists = () => {
     conf.load();
     const name = conf.get(CONFIG_GITHUB_NAME);
     if (!name) {
         window.request(onUserName, Channel.REQUEST_USER_NAME);
         return;
     }
-    window.request(onEncryptKey, Channel.REQUEST_ENCRYPT_KEY);
+    if (!key) {
+        window.request(onEncryptKey, Channel.REQUEST_ENCRYPT_KEY);
+    }
+};
+
+
+const onRequestFromWindow = (channel) => {
+    Log.info('onRequestFromWindow', channel);
+    switch (channel) {
+    case Channel.REQUEST_UPDATE_LIST:
+        updateGists();
+        break;
+    default:
+        break;
+    }
+};
+
+
+module.exports.start = () => {
+    window.create(onClose, onRequestFromWindow);
     window.register(getGistItem, Channel.REQUEST_GIST_ITEM);
+    updateGists();
 };
