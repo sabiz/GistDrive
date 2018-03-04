@@ -13,20 +13,13 @@ const markdownRender = new MarkdownIt({
     },
 });
 
-
-const markdown = new Vue({
-    el: '#markdown',
-    data: {
-        source: '',
-        rendered: '',
-    },
+Vue.component('gist-preview', {
+    template: '<div v-html="rendered"></div>',
+    props: { source: String },
+    data: () => ({ rendered: this.items }),
     watch: {
-        source: (val) => {
-            markdown.rendered = markdownRender.render(val);
+        source(v) {
+            this.rendered = markdownRender.render(v);
         },
     },
 });
-
-module.exports.preview = (mdText) => {
-    markdown.source = mdText;
-};

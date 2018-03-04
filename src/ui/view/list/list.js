@@ -1,13 +1,11 @@
 const Vue = require('../../../../node_modules/vue/dist/vue');
 
 Vue.component('gist-list', {
-    template: '<div class="side-panel" >\
-                <ul>\
+    template: '<ul>\
                     <li v-for="(item, index) in items" @click="onItemClick(index)">\
                         {{ item.name }}\
                     </li>\
-                </ul>\
-                </div>',
+                </ul>',
     props: { items: Array /* {description:'',name:'',id:''} */ },
     data: () => ({ listItem: this.items }),
     methods: {

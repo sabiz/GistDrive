@@ -6,17 +6,16 @@
   </head>
   <body>
     <div class="content-area">
-        <gist-list v-on:item-click="onItemClick" :items="gistList"/>
-        <div class="main-panel" id="markdown">
-            <div v-html="rendered"></div>
-        </div>
+      <div class="side-panel" >
+        <gist-list v-on:item-click="onItemClick" :items="gistList" />
+      </div>
+      <div class="main-panel">
+        <gist-preview :source="mdData" />
+      </div>
         <!-- <modal-progress /> -->
     </div>
     <div class="title-bar draggable">
-      <i class="fas fa-bars"></i>
-      <span>GistDrive</span>
-      <i class="fas fa-window-minimize"></i>
-      <i class="fas fa-power-off"></i>
+      <title-bar title="GistDrive"/>
     </div>
     <script src="script.js"></script>
   </body>

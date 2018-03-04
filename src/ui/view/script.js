@@ -1,8 +1,8 @@
 const { ipcRenderer } = require('electron');
 const alertify = require('alertifyjs');
-const titlebar = require('./titlebar/titlebar'); // eslint-disable-line
-const preview = require('./preview/preview');
+require('./titlebar/titlebar');
 require('./list/list');
+require('./preview/preview');
 const progress = require('./progress/progress');
 const channel = require('../channel');
 const dom = require('./util/dom');
@@ -11,30 +11,28 @@ const Vue = require('../../../node_modules/vue/dist/vue');
 alertify.set('notifier', 'position', 'top-center');
 // alertify.set('notifier','delay', 1000); DEBUG notify
 
-const gists = [];
-
-
-function renderMarkdown(mdText) {
-    preview.preview(mdText);
-}
-
-const app = new Vue({
-    el: '.content-area',
+const content = new Vue({
     data: {
+        gists: [],
         gistList: [],
+        mdData: '',
     },
     methods: {
-        onItemClick: (data) => {
-            const tmpData = gists.find(e => e.id === data.id);
+        onItemClick(data) {
+            const tmpData = this.gists.find(e => e.id === data.id);
             if (!tmpData) {
-                gists.push({ id: data.id });
+                this.gists.push({ id: data.id });
                 ipcRenderer.send(channel.REQUEST_GIST_ITEM, data.id, data.name);
             } else {
-                renderMarkdown(tmpData.content);
+                this.mdData = tmpData.content;
             }
         },
     },
 });
+content.$mount('.content-area');
+
+const titleBar = new Vue();
+titleBar.$mount('.title-bar');
 
 dom.contentLoadAction(() => {
     // NOP
@@ -66,7 +64,7 @@ ipcRenderer.on(channel.REQUEST_PASSWORD, () => {
 });
 
 ipcRenderer.on(channel.REQUEST_UPDATE_LIST, (ev, args) => {
-    app.gistList = [].concat(...args);
+    content.gistList = [].concat(...args);
 });
 
 ipcRenderer.on(channel.REQUEST_GIST_ITEM, (ev, args) => {
@@ -75,14 +73,14 @@ ipcRenderer.on(channel.REQUEST_GIST_ITEM, (ev, args) => {
     }
     const result = args[0];
     let updateItem;
-    gists.forEach((v, i) => {
+    content.gists.forEach((v, i) => {
         if (v.id === result.id) {
-            gists[i].language = result.language;
-            gists[i].content = result.content;
-            updateItem = gists[i];
+            content.gists[i].language = result.language;
+            content.gists[i].content = result.content;
+            updateItem = content.gists[i];
         }
     });
-    renderMarkdown(updateItem.content);
+    content.mdData = updateItem.content;
 });
 
 ipcRenderer.on(channel.SHOW_PROGRESS, () => {
