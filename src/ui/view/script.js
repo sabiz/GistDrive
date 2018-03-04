@@ -16,6 +16,7 @@ const content = new Vue({
         gists: [],
         gistList: [],
         mdData: '',
+        inProgress: false,
     },
     methods: {
         onItemClick(data) {
@@ -29,17 +30,8 @@ const content = new Vue({
         },
     },
 });
-content.$mount('.content-area');
+content.$mount('#root');
 
-const titleBar = new Vue();
-titleBar.$mount('.title-bar');
-
-const modalProgress = new Vue({
-    data: {
-        inProgress: false,
-    },
-});
-modalProgress.$mount('#modal');
 
 dom.contentLoadAction(() => {
     // NOP
@@ -93,7 +85,7 @@ ipcRenderer.on(channel.REQUEST_GIST_ITEM, (ev, args) => {
 
 ipcRenderer.on(channel.SHOW_PROGRESS, (ev, args) => {
     const [value] = args;
-    modalProgress.inProgress = value;
+    content.inProgress = value;
 });
 
 ipcRenderer.on(channel.SHOW_ERROR, (ev, args) => alertify.error(args[0]));

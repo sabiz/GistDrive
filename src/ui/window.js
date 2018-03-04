@@ -17,7 +17,6 @@ const WINDOW_OPTIONS = {
     frame: false,
     darkTheme: true,
     webPreferences: {
-        // devTools: false,
         nodeIntegrationInWorker: true,
         preload: true,
     },
@@ -31,7 +30,6 @@ module.exports.create = (onClose, cb) => {
         win = new BrowserWindow(WINDOW_OPTIONS);
         win.loadURL(path.join(__dirname, 'view', 'index.html'));
         win.on('closed', () => { win = null; });
-        win.webContents.openDevTools();
         win.webContents.on('did-finish-load', () => {
             msgQueue.forEach((v) => {
                 self.request(v.callBack, v.ch, v.params);

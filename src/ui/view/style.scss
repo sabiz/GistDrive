@@ -10,7 +10,7 @@
 @import './progress/progress.scss';
 
 
-html,body {
+html,body,#root {
   margin: 0;
   height: 100%;
   font-family: $mainFont;

@@ -8,6 +8,10 @@ const TEMPLETE = [
         role: Channel.REQUEST_UPDATE_LIST,
     },
     {
+        label: 'devTools',
+        role: 'toggledevtools',
+    },
+    {
         label: 'Exit',
         role: 'quit',
     },
