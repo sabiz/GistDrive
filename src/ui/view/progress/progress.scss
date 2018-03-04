@@ -1,0 +1,20 @@
+@import '../define.scss';
+@import '../csslib/line-scale-pulse-out-rapid.min.scss';
+
+.la-line-scale-pulse-out-rapid {
+    color: $accentColor;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    width: 80%;
+    height: 3.2rem;
+}
+
+.la-line-scale-pulse-out-rapid > div {
+    width: 8px;
+    height: 64px;
+    margin: 4px;
+}
