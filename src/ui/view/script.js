@@ -3,7 +3,7 @@ const alertify = require('alertifyjs');
 require('./titlebar/titlebar');
 require('./list/list');
 require('./preview/preview');
-const progress = require('./progress/progress');
+require('./progress/progress');
 const channel = require('../channel');
 const dom = require('./util/dom');
 const Vue = require('../../../node_modules/vue/dist/vue');
@@ -33,6 +33,13 @@ content.$mount('.content-area');
 
 const titleBar = new Vue();
 titleBar.$mount('.title-bar');
+
+const modalProgress = new Vue({
+    data: {
+        inProgress: false,
+    },
+});
+modalProgress.$mount('#modal');
 
 dom.contentLoadAction(() => {
     // NOP
@@ -84,16 +91,9 @@ ipcRenderer.on(channel.REQUEST_GIST_ITEM, (ev, args) => {
     content.mdData = updateItem.content;
 });
 
-ipcRenderer.on(channel.SHOW_PROGRESS, () => {
-    // alertify.alert()
-    //     .setting({
-    //         basic: true,
-    //         closable: false,
-    //         closableByDimmer: false,
-    //         modal: true,
-    //         movable: false,
-    //     })
-    //     .setContent('<h1> Hello World! </h1>').show();
+ipcRenderer.on(channel.SHOW_PROGRESS, (ev, args) => {
+    const [value] = args;
+    modalProgress.inProgress = value;
 });
 
 ipcRenderer.on(channel.SHOW_ERROR, (ev, args) => alertify.error(args[0]));

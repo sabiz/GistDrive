@@ -37,7 +37,7 @@ const makeGistList = (gists) => {
 
 
 const connectGist = () => {
-    // window.response(Channel.SHOW_PROGRESS);
+    window.response(Channel.SHOW_PROGRESS, true);
     new Promise((resolve, reject) => {
         const name = conf.get(CONFIG_GITHUB_NAME);
         const pass = conf.getAndDecrypt(CONFIG_GITHUB_PASSWORD, key);
@@ -61,10 +61,9 @@ const connectGist = () => {
                 reject(err || res.message || 'Github connect error.');
                 return;
             }
-            // setTimeout(() => {
-                makeGistList(res);
-                resolve();
-            // }, 5000);
+            makeGistList(res);
+            resolve();
+            window.response(Channel.SHOW_PROGRESS, false);
         });
     }).catch((error) => {
         Log.error(error);
@@ -96,6 +95,7 @@ const onUserName = (userName) => {
 };
 
 const getGistItem = (id, name) => {
+    window.response(Channel.SHOW_PROGRESS, true);
     gistClient.download({ id }, (err, res) => {
         if (err || res.message) {
             window.request(null, Channel.SHOW_ERROR, res.message || err);
@@ -106,6 +106,7 @@ const getGistItem = (id, name) => {
             language: res.files[name].language,
             content: res.files[name].content,
         });
+        window.response(Channel.SHOW_PROGRESS, false);
     });
 };
 

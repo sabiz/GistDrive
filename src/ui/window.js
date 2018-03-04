@@ -6,7 +6,7 @@ const menu = require('./menu/menu');
 const WINDOW_OPTIONS = {
     width: 1024,
     height: 640,
-    resizable: false,
+    resizable: true,
     minimizable: true,
     maximizable: false,
     fullscreenable: false,
@@ -29,7 +29,6 @@ const self = this;
 module.exports.create = (onClose, cb) => {
     const createWindow = () => {
         win = new BrowserWindow(WINDOW_OPTIONS);
-        // this.win.loadURL(path.join(process.cwd(),'content','index.html'));
         win.loadURL(path.join(__dirname, 'view', 'index.html'));
         win.on('closed', () => { win = null; });
         win.webContents.openDevTools();
