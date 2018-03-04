@@ -1,31 +1,40 @@
 const { ipcRenderer } = require('electron');
 const alertify = require('alertifyjs');
-const titlebar = require('./titlebar/titlebar'); // eslint-disable-line
-const preview = require('./preview/preview');
-const list = require('./list/list');
+require('./titlebar/titlebar');
+require('./list/list');
+require('./preview/preview');
+require('./progress/progress');
 const channel = require('../channel');
+const dom = require('./util/dom');
+const Vue = require('../../../node_modules/vue/dist/vue');
 
 alertify.set('notifier', 'position', 'top-center');
 // alertify.set('notifier','delay', 1000); DEBUG notify
 
-const gists = [];
+const content = new Vue({
+    data: {
+        gists: [],
+        gistList: [],
+        mdData: '',
+        inProgress: false,
+    },
+    methods: {
+        onItemClick(data) {
+            const tmpData = this.gists.find(e => e.id === data.id);
+            if (!tmpData) {
+                this.gists.push({ id: data.id });
+                ipcRenderer.send(channel.REQUEST_GIST_ITEM, data.id, data.name);
+            } else {
+                this.mdData = tmpData.content;
+            }
+        },
+    },
+});
+content.$mount('#root');
 
-function renderMarkdown(mdText) {
-    preview.preview(mdText);
-}
 
-function onItemClick(data) {
-    const tmpData = gists.find(e => e.id === data.id);
-    if (!tmpData) {
-        gists.push({ id: data.id });
-        ipcRenderer.send(channel.REQUEST_GIST_ITEM, data.id, data.name);
-    } else {
-        renderMarkdown(tmpData.content);
-    }
-}
-
-window.addEventListener('load', () => {
-    list.registerItemClick(onItemClick);
+dom.contentLoadAction(() => {
+    // NOP
 });
 
 ipcRenderer.on(channel.REQUEST_USER_NAME, () => {
@@ -45,6 +54,7 @@ ipcRenderer.on(channel.REQUEST_ENCRYPT_KEY, () => {
 });
 
 ipcRenderer.on(channel.REQUEST_PASSWORD, () => {
+    process.isShown = true;
     alertify.prompt(
         '', 'Github account password ?', '',
         (evt, value) => ipcRenderer.send(channel.REQUEST_PASSWORD, value),
@@ -53,7 +63,7 @@ ipcRenderer.on(channel.REQUEST_PASSWORD, () => {
 });
 
 ipcRenderer.on(channel.REQUEST_UPDATE_LIST, (ev, args) => {
-    list.update(...args);
+    content.gistList = [].concat(...args);
 });
 
 ipcRenderer.on(channel.REQUEST_GIST_ITEM, (ev, args) => {
@@ -62,14 +72,20 @@ ipcRenderer.on(channel.REQUEST_GIST_ITEM, (ev, args) => {
     }
     const result = args[0];
     let updateItem;
-    gists.forEach((v, i) => {
+    content.gists.forEach((v, i) => {
         if (v.id === result.id) {
-            gists[i].language = result.language;
-            gists[i].content = result.content;
-            updateItem = gists[i];
+            content.gists[i].language = result.language;
+            content.gists[i].content = result.content;
+            updateItem = content.gists[i];
         }
     });
-    renderMarkdown(updateItem.content);
+    document.getElementById('markdown').scrollTop = 0;
+    content.mdData = updateItem.content;
+});
+
+ipcRenderer.on(channel.SHOW_PROGRESS, (ev, args) => {
+    const [value] = args;
+    content.inProgress = value;
 });
 
 ipcRenderer.on(channel.SHOW_ERROR, (ev, args) => alertify.error(args[0]));

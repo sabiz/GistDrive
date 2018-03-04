@@ -1,3 +1,4 @@
+@import '../define.scss';
 $titleHeight: 30px;
 
 .title-bar {
@@ -15,13 +16,34 @@ $titleHeight: 30px;
         -webkit-app-region: no-drag;
         display: inline-block;
         position: absolute;
-        right: 10px;
+      }
+      .fa-power-off {
         top: 5px;
+        right: 10px;
       }
       .fa-power-off:hover:before {
         color: $accentColor;
       }
       .fa-power-off:before {
+        color: $background;
+      }
+      .fa-window-minimize {
+        right: 45px;
+      }
+      .fa-window-minimize:hover:before {
+        color: $accentColor;
+      }
+      .fa-window-minimize:before {
+        color: $background;
+      }
+      .fa-bars {
+        top: 5px;
+        left: 10px;
+      }
+      .fa-bars:hover:before {
+        color: $accentColor;
+      }
+      .fa-bars:before {
         color: $background;
       }
   }

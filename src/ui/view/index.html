@@ -5,21 +5,19 @@
     <link href="style.css" rel="stylesheet">
   </head>
   <body>
-    <div class="content-area">
-        <div class="side-panel" id="list">
-            <ul>
-                <li v-for="(item, index) in items" v-on:click="onItemClick(index)">
-                    {{ item.name }}
-                </li>
-            </ul>
-        </div>
-        <div class="main-panel" id="markdown">
-            <div v-html="rendered"></div>
-        </div>
-    </div>
-    <div class="title-bar draggable">
-      <span>GistDrive</span>
-      <i class="fas fa-power-off"></i>
+    <div id="root">
+      <div class="side-panel" >
+        <gist-list v-on:item-click="onItemClick" :items="gistList" />
+      </div>
+      <div class="main-panel">
+        <gist-preview :source="mdData" id="markdown" />
+      </div>
+      <div class="title-bar draggable">
+        <title-bar title="GistDrive"/>
+      </div>
+      <div id="modal">
+        <modal-progress :is-show="inProgress"/>
+      </div>
     </div>
     <script src="script.js"></script>
   </body>
