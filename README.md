@@ -1,4 +1,6 @@
-# GistDrive
+
+
+# GistDrive<img src="https://raw.githubusercontent.com/sabiz/GistDrive/master/icon.ico" width="64px">
 Github Gist viewer for desktop
 
 # TODO
